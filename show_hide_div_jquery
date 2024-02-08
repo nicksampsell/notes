@@ -1,0 +1,48 @@
+# Show and Hide a Div with a Dropdown and jQuery
+
+## Step 1
+Give the `<div>` that is around the form element that you want to hide an ID and add `style="display:none"` to hide it by default.
+```
+<div class="form-group">
+	<label asp-for="SerialNumber" class="form-label">
+	<input asp-for="SerialNumber" class="form-control">
+</div>
+```
+should become something like
+```
+<div class="form-group" id="SerialNumberDiv" style="display: none">
+	<label asp-for="SerialNumber" class="form-label">
+	<input asp-for="SerialNumber" class="form-control">
+</div>
+```
+
+## Step 2
+In the scripts portion of your page (create it if it does not exist), add the following:
+```
+@section Scripts{
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$('#ID_OF_DROPDOWN').on('change', function() {
+			if(this.value === 'ID_FOR_RADIO' ||  
+				this.value === 'ID_FOR_GUN' || 
+				this.value === 'ID_FOR_TASER' || 
+				this.value === 'ID_FOR_RIFLE')
+			{
+				$('#SerialNumberDiv').show();
+			}
+			else
+			{
+				$('#SerialNumberDiv').hide();
+			}
+		});
+	});
+	</script>
+}
+```
+Be sure to replace 
+`#ID_OF_DROPDOWN` with the actual ID of the dropdown (it is the same as the value in `asp-for`
+`ID_FOR_RADIO`, `ID_FOR_GUN`, `ID_FOR_TASER`, `ID_FOR_RIFLE` with their item IDS or whatever their value is in the dropdown
+`#SerialNumberDiv` with the actual ID of the div that wraps around the Serial Number field.
+
+### How this Works
+The `.show()` and `.hide()` jQuery functions change the `display` CSS value from `none` for hidden, to `block` for show.
